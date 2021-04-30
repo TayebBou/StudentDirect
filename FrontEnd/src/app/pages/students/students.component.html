@@ -1,0 +1,190 @@
+<div *ngIf="students" class=" content">
+    <div class=" card">
+        <div class=" card-header">
+            <div class="div-inlin">
+                <h3 class=" card-title">Table d'étudiants</h3>
+            </div>
+            <div class="btn-right">
+                <button class="btn btn-primary btn-link" (click)='foo()'>+ Ajouter Etudiant</button>
+            </div>
+        </div>
+        <div class=" card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>CIN</th>
+                        <th>Nom</th>
+                        <th>Prénom</th>
+                        <th>Sexe</th>
+                        <th>Spécialité</th>
+                        <th>Adresse mail</th>
+                        <th>Niveau</th>
+                        <th>Numéro de tel</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of tableStudent | paginate: { itemsPerPage: 5, currentPage: p }; index as i">
+                        <td>{{row.cin}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.sexe}}</td>
+                        <td>{{row.specialty}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.level}}</td>
+                        <td>{{row.numberPhone}}</td>
+                        <td>
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu" class="buttonNone">
+                                <div class="threeDot"></div>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="fetchStudent(i,row)" mat-menu-item>
+                                    <span>Afficher</span>
+                                </button>
+                                <button (click)="editStudent(i,row)" mat-menu-item>
+                                    <span>Modifier</span>
+                                </button>
+                                <button (click)="deleteStudent(i,row)" mat-menu-item>
+                                    <span class="delete-item">Supprimer</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls class="btn-right my-pagination" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="formStudents" class=" content">
+    <div class=" row">
+        <div class=" col-md-11">
+            <div class=" card">
+                <div class=" card-header">
+                    <div class="div-inlin">
+                        <h3 class=" title">{{crudTitle}}</h3>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-link" (click)='retour()'>
+                            <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                            Retour
+                        </button>
+                    </div>
+                </div>
+                <div class=" card-body">
+                    <form [formGroup]="addForm" (ngSubmit)="functionRedirect()" id="myForm">
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> CIN </label>
+                                    <input style="text-transform:uppercase" class=" form-control" formControlName="cin"
+                                        placeholder="CIN" type="text" value="" />
+                                    <div *ngIf="cinCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label for="exampleInputEmail1"> Adresse email </label>
+                                    <input class=" form-control" formControlName="email" placeholder="Adresse mail"
+                                        type="email" />
+                                    <div *ngIf="emailCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Prenom </label>
+                                    <input class=" form-control" formControlName="firstName" placeholder="Prenom"
+                                        type="text" value="" />
+                                    <div *ngIf="firstNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Nom </label>
+                                    <input class=" form-control" formControlName="lastName" placeholder="Nom"
+                                        type="text" value="" />
+                                    <div *ngIf="lastNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Niveau </label>
+                                    <select class="form-control" name="level" formControlName="level">
+                                        <option class="bluebackground">1AM</option>
+                                        <option class="bluebackground">1AI</option>
+                                        <option class="bluebackground">2AM</option>
+                                        <option class="bluebackground">2AI</option>
+                                        <option class="bluebackground">3ISI</option>
+                                        <option class="bluebackground">3AM</option>
+                                        <option class="bluebackground">4ISI</option>
+                                        <option class="bluebackground">4AM</option>
+                                        <option class="bluebackground">5ISI</option>
+                                        <option class="bluebackground">5AM</option>
+                                    </select>
+                                    <div *ngIf="levelCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Spécialité </label>
+                                    <input class=" form-control" formControlName="specialty" placeholder="Spécialité"
+                                        type="text" value="" />
+                                    <div *ngIf="specialtyCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Sexe </label>
+                                    <select class="form-control" name="sexe" formControlName="sexe">
+                                        <option class="bluebackground">Homme</option>
+                                        <option class="bluebackground">Femme</option>
+                                    </select>
+                                    <div *ngIf="sexeCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Numéro de téléphone </label>
+                                    <input class=" form-control" formControlName="numberPhone"
+                                        placeholder="Numéro de téléphone" regex="/^[06]{2}+[0-9]{8}$/gm" type="text"
+                                        value="" />
+                                    <div *ngIf="numberPhoneCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" card-footer">
+                            <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                type="submit">{{operationButton}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

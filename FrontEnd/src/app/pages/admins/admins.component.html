@@ -1,0 +1,144 @@
+<div *ngIf="admins" class=" content">
+    <div class=" card">
+        <div class=" card-header">
+            <div class="div-inlin">
+                <h3 class=" card-title">Table d'administrateurs</h3>
+            </div>
+            <div class="btn-right">
+                <button class="btn btn-primary btn-link" (click)='foo()'>+ Ajouter Administrateur</button>
+            </div>
+        </div>
+        <div class=" card-body">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Prénom</th>
+                        <th>Nom</th>
+                        <th>Mail</th>
+                        <th>Nom d'utilisateur</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let row of tableAdmins | paginate: { itemsPerPage: 5, currentPage: p }; index as i">
+                        <td>{{row.firstName}}</td>
+                        <td>{{row.lastName}}</td>
+                        <td>{{row.email}}</td>
+                        <td>{{row.login}}</td>
+                        <td>
+                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                aria-label="Example icon-button with a menu" class="buttonNone">
+                                <div class="threeDot"></div>
+                            </button>
+                            <mat-menu #menu="matMenu">
+                                <button (click)="editAdmin(i,row)" mat-menu-item>
+                                    <span>Modifier</span>
+                                </button>
+                                <button (click)="deleteAdmin(i,row)" mat-menu-item>
+                                    <span class="delete-item">Supprimer</span>
+                                </button>
+                            </mat-menu>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <pagination-controls class="btn-right my-pagination" (pageChange)="p = $event"></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="formAdmins" class=" content">
+    <div class=" row">
+        <div class=" col-md-11">
+            <div class=" card">
+                <div class=" card-header">
+                    <div class="div-inlin">
+                        <h3 class=" title">{{crudTitle}}</h3>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-link" (click)='retour()'>
+                            <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                            Retour
+                        </button>
+                    </div>
+                </div>
+                <div class=" card-body">
+                    <form [formGroup]="addForm" (ngSubmit)="functionRedirect()" id="myForm">
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Prenom </label>
+                                    <input class=" form-control" formControlName="firstName" placeholder="Prenom"
+                                        type="text" value="" />
+                                    <div *ngIf="firstNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Nom </label>
+                                    <input class=" form-control" formControlName="lastName" placeholder="Nom"
+                                        type="text" value="" />
+                                    <div *ngIf="lastNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Nom d'utilisateur </label>
+                                    <input class=" form-control" formControlName="login" placeholder="Nom d'utilisateur"
+                                        type="text" value="" />
+                                    <div *ngIf="loginCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Adresse mail </label>
+                                    <input class=" form-control" formControlName="email" placeholder="Adresse mail"
+                                        type="email" />
+                                    <div *ngIf="emailCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> {{passwordLabel}} </label>
+                                    <input class=" form-control" min="6" (keyup)="onKey()" formControlName="password" placeholder="Mot de passe"
+                                        type="password" value="" />
+                                    <div *ngIf="passwordCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Confirmation mot de passe </label>
+                                    <input class=" form-control" formControlName="confirmPassword"
+                                        placeholder="Confirmation mot de passe" type="password" value="" />
+                                    <div *ngIf="confirmPasswordCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                    <div *ngIf="confirmPasswordEqualCheck" class="text-{{typeAlert}}">
+                                        {{passwordConfirmMsg}}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" card-footer">
+                            <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                type="submit">{{operationButton}}</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

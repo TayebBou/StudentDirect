@@ -1,0 +1,35 @@
+const express = require('express');
+const router = express.Router();
+const studentRouter = require('../routes/student');
+const classRouter = require('../routes/class');
+const absenceRouter = require('../routes/absence');
+const paymentRouter = require('../routes/payment');
+const moduleRouter = require('../routes/module');
+const examRouter = require('../routes/exam');
+const delayRouter = require('../routes/delay');
+const accountRouter = require('../routes/account');
+const loginRouter = require('../routes/login');
+const passResetRouter = require('../routes/passForget');
+const resetPasswordRouter = require('../routes/resetPassword');
+const verifyTokenRouter = require('../routes/verifyToken');
+const refreshTokenRouter = require('../routes/refreshToken');
+const swaggerUi = require('swagger-ui-express');
+const swaggerDocument = require('../swagger.json');
+
+router.use('/api-docs', swaggerUi.serve);
+router.get('/api-docs', swaggerUi.setup(swaggerDocument));
+router.use('/login', loginRouter);
+router.use('/passReset', passResetRouter);
+router.use('/resetPassword', resetPasswordRouter);
+router.use('/students', studentRouter);
+router.use('/classes', classRouter);
+router.use('/absences', absenceRouter);
+router.use('/payments', paymentRouter);
+router.use('/modules', moduleRouter);
+router.use('/exams', examRouter);
+router.use('/delays', delayRouter);
+router.use('/accounts', accountRouter);
+router.use('/verifyToken', verifyTokenRouter);
+router.use('/refreshToken', refreshTokenRouter);
+
+module.exports = router;

@@ -1,0 +1,647 @@
+<div class=" content">
+    <mat-tab-group dynamicHeight>
+        <mat-tab label="Notes">
+            <div *ngIf="modules" class="div-inlin div-w100">
+                <div class="btn-right">
+                    <button class="btn btn-primary btn-link" (click)='fooM()'>+ Ajouter module</button>
+                </div>
+                <div class="div-inlin div-w100">
+                    <div class=" card cardWH" *ngFor="let row of tableModule index as i">
+                        <div class=" card-header">
+                            <h3 class=" card-title">Module : {{row.name}}</h3>
+                        </div>
+                        <div class=" card-body">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>MATIERE</th>
+                                        <th>EXAM</th>
+                                        <th>NOTE</th>
+                                        <th></th>
+                                        <th>COEF</th>
+                                        <th>MOY</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let ro4 of row.matters index as im">
+                                        <td>{{ro4.name}}</td>
+                                        <td>
+                                            <p class="examSpace" *ngFor="let exam of ro4.exams index as i1">
+                                                {{exam.name}}</p>
+                                        </td>
+                                        <td>
+                                            <p class="examSpace" *ngFor="let exam of ro4.exams index as i2">
+                                                {{exam.mark}}</p>
+                                        </td>
+                                        <td>
+                                    <tr *ngFor="let exam of ro4.exams index as i3">
+                                            <button class="iconButtonG" title="Supprimer exam" (click)="deleteExam(i,exam)">
+                                                <i _ngcontent-hoh-c2="" class="tim-icons  icon-trash-simple"></i>
+                                            </button>
+                                    </tr>
+                                    </td>
+                                    <td>
+                                        <tr> {{ro4.coefficient}} </tr>
+                                    </td>
+                                    <td>
+                                        <tr> {{ro4.average}}</tr>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-primary btn-link bigPlus" (click)='fooExam(ro4)' title="Ajouter note d'examen"> + </button>
+                                    </td>
+                                </tr>
+                                    <tr>
+                                        <td> Moyenne du module : </td>
+                                        <td> {{row.average}} </td>
+                                        <td class="borderNone tdButton">
+                                            <button mat-icon-button [matMenuTriggerFor]="menu"
+                                                class="buttonNone btn-right">
+                                                <div class="threeDot"></div>
+                                            </button>
+                                            <mat-menu #menu="matMenu">
+                                                <button (click)="editModule(i,row)" mat-menu-item>
+                                                    <span>Modifier</span>
+                                                </button>
+                                                <button (click)="deleteModule(i,row)" mat-menu-item>
+                                                    <span class="delete-item">Supprimer</span>
+                                                </button>
+                                            </mat-menu>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formModules">
+                <div class=" col-md-11">
+                    <div class=" card">
+                        <div class=" card-header">
+                            <div class="div-inlin">
+                                <h3 class=" title">{{crudTitle}}</h3>
+                            </div>
+                            <div class="btn-right">
+                                <button class="btn btn-primary btn-link" (click)='retourM()'>
+                                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                                    Retour
+                                </button>
+                            </div>
+                        </div>
+                        <div class=" card-body">
+                            <form [formGroup]="moduleForm" (ngSubmit)="functionRedirectM()" id="myForm">
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Nom du module </label>
+                                            <input class=" form-control" formControlName="moduleName"
+                                                placeholder="Nom du module" type="text">
+                                            <div *ngIf="moduleNameCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Niveau </label>
+                                            <select class="form-control" name="level" formControlName="level">
+                                                <option class="bluebackground">1AM</option>
+                                                <option class="bluebackground">1AI</option>
+                                                <option class="bluebackground">2AM</option>
+                                                <option class="bluebackground">2AI</option>
+                                                <option class="bluebackground">3ISI</option>
+                                                <option class="bluebackground">3AM</option>
+                                                <option class="bluebackground">4ISI</option>
+                                                <option class="bluebackground">4AM</option>
+                                                <option class="bluebackground">5ISI</option>
+                                                <option class="bluebackground">5AM</option>
+                                            </select>
+                                            <div *ngIf="levelCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="formModulesAdd">
+                                    <button type="button" class="btn btn-primary btn-link" (click)='addMatter()'>+
+                                        Ajouter
+                                        matière</button>
+                                    <button type="button" class="btn btn-primary btn-link" (click)='cancel()'>-
+                                        Réinitialiser
+                                    </button>
+                                    <div formArrayName="matters"
+                                        *ngFor="let matter of moduleForm.get('matters')['controls']; let i = index;">
+                                        <div [formGroupName]="i">
+                                            <div class=" row">
+                                                <div class=" col-md-6 pr-md-1">
+                                                    <div class=" form-group">
+                                                        <label> Nom de la matière </label>
+                                                        <input class=" form-control" placeholder="Nom de la matière"
+                                                            formControlName="name" type="text">
+                                                        <div *ngIf="matterNameFirstCheck" class="text-danger">
+                                                            Votre champs est vide
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 pl-md-1">
+                                                    <div class=" form-group">
+                                                        <label> Coefficient de la matière </label>
+                                                        <input class=" form-control"
+                                                            placeholder="Coefficient de la matière"
+                                                            formControlName="coefficient" type="number">
+                                                        <div *ngIf="matterCoefficientFirstCheck" class="text-danger">
+                                                            Votre champs est vide
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Chosen name: {{ moduleForm.controls.matters.controls[i].controls.name.value }} -->
+                                    </div>
+                                </div>
+                                <div *ngIf="formModulesEdit">
+                                    <div formArrayName="mattersEdit" *ngFor="let matter of matterss; let i = index;">
+                                        <div [formGroupName]="i">
+                                            <div class=" row">
+                                                <div class=" col-md-6 pr-md-1">
+                                                    <div class=" form-group">
+                                                        <label> Nom de la matière </label>
+                                                        <input class=" form-control" placeholder="Nom de la matière"
+                                                            formControlName="name" type="text">
+                                                        <div *ngIf="matterNameFirstCheck" class="text-danger">
+                                                            Votre champs est vide
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class=" col-md-6 pl-md-1">
+                                                    <div class=" form-group">
+                                                        <label> Coefficient de la matière </label>
+                                                        <input class=" form-control"
+                                                            placeholder="Coefficient de la matière"
+                                                            formControlName="coefficient" type="number">
+                                                        <div *ngIf="matterCoefficientFirstCheck" class="text-danger">
+                                                            Votre champs est vide
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Chosen name: {{ moduleForm.controls.matters.controls[i].controls.name.value }} -->
+                                    </div>
+                                </div>
+                                <div class=" card-footer">
+                                    <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                        type="submit">{{operationButton}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="formExam">
+                <div class=" col-md-11">
+                    <div class=" card">
+                        <div class=" card-header">
+                            <div class="div-inlin">
+                                <h3 class=" title">{{crudTitle}}</h3>
+                            </div>
+                            <div class="btn-right">
+                                <button class="btn btn-primary btn-link" (click)='retourExam()'>
+                                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                                    Retour
+                                </button>
+                            </div>
+                        </div>
+                        <div class=" card-body">
+                            <form [formGroup]="examForm" (ngSubmit)="addExam()" id="myForm">
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Examen </label>
+                                            <input class=" form-control" formControlName="name"
+                                                placeholder="Examen" type="text">
+                                            <div *ngIf="examNameCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Note </label>
+                                            <input class=" form-control" placeholder="Note"
+                                                formControlName="mark" type="number">
+                                            <div *ngIf="examMarkCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" card-footer">
+                                    <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                        type="submit">{{operationButton}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Paiements">
+            <div *ngIf="payments" class=" card">
+                <div class=" card-header">
+                    <div class="div-inlin">
+                        <h3 class=" card-title">Liste des versements</h3>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-link" (click)='foo()'>+ Ajouter versement</button>
+                    </div>
+                </div>
+                <div class=" card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Montant</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let row of tablePayment | paginate: { itemsPerPage: 5, currentPage: p, id: 'first' }; index as i">
+                                <td>{{row.paymentDate}}</td>
+                                <td>{{row.modePayment}}</td>
+                                <td>{{row.amountPaid}} DH</td>
+                                <td>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu"
+                                        aria-label="Example icon-button with a menu" class="buttonNone">
+                                        <div class="threeDot"></div>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button (click)="editPayment(i,row)" mat-menu-item>
+                                            <span>Modifier</span>
+                                        </button>
+                                        <button (click)="deletePayment(i,row)" mat-menu-item>
+                                            <span class="delete-item">Supprimer</span>
+                                        </button>
+                                    </mat-menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls class="btn-right my-pagination" (pageChange)="p = $event" id="first">
+                    </pagination-controls>
+                </div>
+            </div>
+            <div *ngIf="formPayments">
+                <div class=" col-md-11">
+                    <div class=" card">
+                        <div class=" card-header">
+                            <div class="div-inlin">
+                                <h3 class=" title">{{crudTitle}}</h3>
+                            </div>
+                            <div class="btn-right">
+                                <button class="btn btn-primary btn-link" (click)='retour()'>
+                                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                                    Retour
+                                </button>
+                            </div>
+                        </div>
+                        <div class=" card-body">
+                            <form [formGroup]="paymentForm" (ngSubmit)="functionRedirect()" id="myForm">
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Date de paiement </label>
+                                            <div class="divDisp">
+                                                <input class=" form-control" formControlName="paymentDate"
+                                                    [owlDateTime]="dt2" placeholder="Date de paiement">
+                                                <span [owlDateTimeTrigger]="dt2" class="spanCalendar"><i
+                                                        class="tim-icons iCalendar icon-calendar-60"></i></span>
+                                                <owl-date-time #dt2></owl-date-time>
+                                            </div>
+                                            <div *ngIf="paymentDateCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Mode de paiement </label>
+                                            <select class=" form-control" name="modePayment"
+                                                formControlName="modePayment">
+                                                <option class="bluebackground">Espèces</option>
+                                                <option class="bluebackground">Chèque</option>
+                                                <option class="bluebackground">Carte de paiement</option>
+                                            </select>
+                                            <div *ngIf="modePaymentCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Montant payé en (MAD) </label>
+                                            <input class=" form-control" formControlName="amountPaid"
+                                                placeholder="Montant payé" type="number" />
+                                            <div *ngIf="amountPaidCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" card-footer">
+                                    <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                        type="submit">{{operationButton}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Absences">
+            <div *ngIf="absences" class=" card">
+                <div class=" card-header">
+                    <div class="div-inlin">
+                        <h3 class=" card-title">Liste des absences</h3>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-link" (click)='fooA()'>+ Ajouter absence</button>
+                    </div>
+                </div>
+                <div class=" card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Séance</th>
+                                <th>matière</th>
+                                <th>Date</th>
+                                <th>Justification</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let row of tableAbsence | paginate: { itemsPerPage: 5, currentPage: p1, id: 'second' }; index as i1">
+                                <td>{{row.session}}</td>
+                                <td>{{row.matter}}</td>
+                                <td>{{row.date}}</td>
+                                <td>{{row.justification}}</td>
+                                <td>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu"
+                                        aria-label="Example icon-button with a menu" class="buttonNone">
+                                        <div class="threeDot"></div>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button (click)="editAbsence(i1,row)" mat-menu-item>
+                                            <span>Modifier</span>
+                                        </button>
+                                        <button (click)="deleteAbsence(i1,row)" mat-menu-item>
+                                            <span class="delete-item">Supprimer</span>
+                                        </button>
+                                    </mat-menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls class="btn-right my-pagination" (pageChange)="p1 = $event" id="second">
+                    </pagination-controls>
+                </div>
+            </div>
+            <div *ngIf="formAbsences">
+                <div class=" col-md-11">
+                    <div class=" card">
+                        <div class=" card-header">
+                            <div class="div-inlin">
+                                <h3 class=" title">{{crudTitle}}</h3>
+                            </div>
+                            <div class="btn-right">
+                                <button class="btn btn-primary btn-link" (click)='retourA()'>
+                                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                                    Retour
+                                </button>
+                            </div>
+                        </div>
+                        <div class=" card-body">
+                            <form [formGroup]="absenceForm" (ngSubmit)="functionRedirectA()" id="myForm">
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Séance </label>
+                                            <select class=" form-control" name="session" formControlName="session">
+                                                <option class="bluebackground">1</option>
+                                                <option class="bluebackground">2</option>
+                                                <option class="bluebackground">3</option>
+                                                <option class="bluebackground">4</option>
+                                            </select>
+                                            <div *ngIf="sessionACheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Matière </label>
+                                            <input class=" form-control" formControlName="matter" placeholder="Matière"
+                                                type="text" />
+                                            <div *ngIf="matterACheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Date </label>
+                                            <div class="divDisp">
+                                                <input class=" form-control" formControlName="date" [owlDateTime]="dt2"
+                                                    placeholder="Date d'absence">
+                                                <span [owlDateTimeTrigger]="dt2" class="spanCalendar"><i
+                                                        class="tim-icons iCalendar icon-calendar-60"></i></span>
+                                                <owl-date-time #dt2></owl-date-time>
+                                            </div>
+                                            <div *ngIf="dateACheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Justification </label>
+                                            <input class=" form-control" formControlName="justification"
+                                                placeholder="Justification" type="text" />
+                                            <div *ngIf="justificationCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" card-footer">
+                                    <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                        type="submit">{{operationButton}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+        <mat-tab label="Retards">
+            <div *ngIf="delays" class=" card">
+                <div class=" card-header">
+                    <div class="div-inlin">
+                        <h3 class=" card-title">Liste des retards</h3>
+                    </div>
+                    <div class="btn-right">
+                        <button class="btn btn-primary btn-link" (click)='fooD()'>+ Ajouter retard</button>
+                    </div>
+                </div>
+                <div class=" card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Séance</th>
+                                <th>matière</th>
+                                <th>Date</th>
+                                <th>Durée en min</th>
+                                <th>Raison du retard</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let row of tableDelay | paginate: { itemsPerPage: 5, currentPage: p2, id: 'third' }; index as i2">
+                                <td>{{row.session}}</td>
+                                <td>{{row.matter}}</td>
+                                <td>{{row.date}}</td>
+                                <td>{{row.durationInMin}}</td>
+                                <td>{{row.reasonDelay}}</td>
+                                <td>
+                                    <button mat-icon-button [matMenuTriggerFor]="menu"
+                                        aria-label="Example icon-button with a menu" class="buttonNone">
+                                        <div class="threeDot"></div>
+                                    </button>
+                                    <mat-menu #menu="matMenu">
+                                        <button (click)="editDelay(i2,row)" mat-menu-item>
+                                            <span>Modifier</span>
+                                        </button>
+                                        <button (click)="deleteDelay(i2,row)" mat-menu-item>
+                                            <span class="delete-item">Supprimer</span>
+                                        </button>
+                                    </mat-menu>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <pagination-controls class="btn-right my-pagination" (pageChange)="p2 = $event" id="third">
+                    </pagination-controls>
+                </div>
+            </div>
+            <div *ngIf="formDelays">
+                <div class=" col-md-11">
+                    <div class=" card">
+                        <div class=" card-header">
+                            <div class="div-inlin">
+                                <h3 class=" title">{{crudTitle}}</h3>
+                            </div>
+                            <div class="btn-right">
+                                <button class="btn btn-primary btn-link" (click)='retourD()'>
+                                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                                    Retour
+                                </button>
+                            </div>
+                        </div>
+                        <div class=" card-body">
+                            <form [formGroup]="delayForm" (ngSubmit)="functionRedirectD()" id="myForm">
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Séance </label>
+                                            <select class=" form-control" name="session" formControlName="session">
+                                                <option class="bluebackground">1</option>
+                                                <option class="bluebackground">2</option>
+                                                <option class="bluebackground">3</option>
+                                                <option class="bluebackground">4</option>
+                                            </select>
+                                            <div *ngIf="sessionDCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 pl-md-1">
+                                        <div class=" form-group">
+                                            <label> Durée </label>
+                                            <input class=" form-control" formControlName="durationInMin"
+                                                placeholder="Raison du retard" type="number" />
+                                            <div *ngIf="durationInMinCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Matière </label>
+                                            <input class=" form-control" formControlName="matter" placeholder="Matière"
+                                                type="text" />
+                                            <div *ngIf="matterDCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class=" col-md-6 pl-md-1">
+                                        <div class=" form-group">
+                                            <label> Raison du retard </label>
+                                            <input class=" form-control" formControlName="reasonDelay"
+                                                placeholder="Raison du retard" type="text" />
+                                            <div *ngIf="reasonDelayCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" row">
+                                    <div class=" col-md-6 pr-md-1">
+                                        <div class=" form-group">
+                                            <label> Date </label>
+                                            <div class="divDisp">
+                                                <input class=" form-control" formControlName="date" [owlDateTime]="dt2"
+                                                    placeholder="Date du retard">
+                                                <span [owlDateTimeTrigger]="dt2" class="spanCalendar"><i
+                                                        class="tim-icons iCalendar icon-calendar-60"></i></span>
+                                                <owl-date-time #dt2></owl-date-time>
+                                            </div>
+                                            <div *ngIf="dateDCheck" class="text-danger">
+                                                Votre champs est vide
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class=" card-footer">
+                                    <button type="submit" class=" btn btn-fill btn-danger btn-right"
+                                        type="submit">{{operationButton}}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</div>

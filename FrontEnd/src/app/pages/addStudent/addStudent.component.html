@@ -1,0 +1,95 @@
+<div class=" content">
+    <div class=" row">
+        <div class=" col-md-11">
+            <div class=" card">
+                <div class=" card-header">
+                    <h3 class=" title">Ajout d'étudiant</h3>
+                </div>
+                <div class=" card-body">
+                    <form [formGroup]="addForm" (ngSubmit)="addStudent()">
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> CIN </label>
+                                    <input class=" form-control" formControlName="cin" placeholder="CIN" type="text"
+                                        value="" />
+                                    <div *ngIf="cinCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label for="exampleInputEmail1"> Adresse email </label>
+                                    <input class=" form-control" formControlName="email" placeholder="Adresse mail"
+                                        type="email" />
+                                    <div *ngIf="emailCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Prenom </label>
+                                    <input class=" form-control" formControlName="firstName" placeholder="Prenom"
+                                        type="text" value="" />
+                                    <div *ngIf="firstNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Nom </label>
+                                    <input class=" form-control" formControlName="lastName" placeholder="Nom"
+                                        type="text" value="" />
+                                    <div *ngIf="lastNameCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Spécialité </label>
+                                    <input class=" form-control" formControlName="specialty" placeholder="Spécialité"
+                                        type="text" value="" />
+                                </div>
+                            </div>
+                            <div class=" col-md-6 pl-md-1">
+                                <div class=" form-group">
+                                    <label> Sexe </label>
+                                    <select class="form-control" name="sexe" formControlName="sexe">
+                                        <option class="bluebackground">Homme</option>
+                                        <option class="bluebackground">Femme</option>
+                                    </select>
+                                    <div *ngIf="sexeCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" row">
+                            <div class=" col-md-6 pr-md-1">
+                                <div class=" form-group">
+                                    <label> Numéro de téléphone </label>
+                                    <input class=" form-control" formControlName="numberPhone"
+                                        placeholder="Numéro de téléphone" regex="/^[06]{2}+[0-9]{8}$/gm" type="text"
+                                        value="" />
+                                    <div *ngIf="numberPhoneCheck" class="text-danger">
+                                        Votre champs est vide
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class=" card-footer">
+                            <button type="submit" class=" btn btn-fill btn-danger btn-add" type="submit">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>

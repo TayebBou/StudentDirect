@@ -1,0 +1,32 @@
+<div class=" content contentNoPaddingLR">
+    <div class=" card centerCard">
+        <div class=" card-header">
+            <div class="btnTextRight">
+                <button class="btn btn-primary btn-link" routerLink="../login">
+                    <i _ngcontent-mdq-c2="" class="tim-icons  icon-double-left corrige"></i>
+                    Retour
+                </button>
+            </div>
+            <h3 class="marginText title textCenter">Mot de passe oublié</h3>
+        </div>
+        <div class=" card-body">
+            <form [formGroup]="loginForm" (ngSubmit)="loginPost()">
+                <div class=" row">
+                    <div class=" form-group inputCenter">
+                        <label for="exampleInputEmail1"> Adresse email </label>
+                        <input class=" form-control" formControlName="email" placeholder="Adresse mail" type="email" />
+                        <div *ngIf="emailCheck" class="text-danger">
+                            Votre champs est vide
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button style="margin-top: 12px" type="submit" class=" btn btn-fill btn-danger centerBouttonEmail"
+                        type="submit">Envoyer mail</button>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer">
+        </div>
+    </div>
+</div>

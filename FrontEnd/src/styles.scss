@@ -1,0 +1,214 @@
+/* You can add global styles to this file, and also import other style files */
+.btn-right{
+    float: right
+}
+.corrige{
+    margin-bottom: 5px;
+    margin-right: 2px;
+}
+.div-inlin{
+    display: inline-block;
+}
+.div-w100{
+    width: 100% !important;
+}
+button.btn.btn-primary.btn-link{
+    color: #fff;
+}
+button.btn.btn-primary.btn-link:hover{
+    color: #f66 !important
+}
+button.btn.btn-default{
+    color:#bbb !important
+}
+button.btn.btn-default:hover{
+    color:#fff !important
+}
+.bluebackground{
+    background-color: rgb(39, 41, 61);
+}
+.threeDot{
+    color:white;
+}
+.threeDot:after {
+    content: '\2807';
+    font-size: 29px;
+    padding-top: 3px;
+    padding-left: 7px;
+    }
+    div.threeDot:hover {
+        color:#f66 !important;
+        }
+    @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+    body { 
+      font-family: Roboto, Arial, sans-serif;
+      margin: 0;
+    }
+    
+    .basic-container {
+      padding: 30px;
+    }
+    
+    .version-info {
+      font-size: 8pt;
+      float: right;
+    }
+.buttonNone{
+    font-size: 100%;
+    font-family: inherit;
+    background-color: Transparent;
+    background-repeat: no-repeat;
+    border: none;
+    cursor: pointer;
+    overflow: hidden;
+    outline: none;
+    padding: 0;
+}
+button.mat-menu-item{
+    text-align: center;
+}
+.delete-item{
+    color: #f66
+}
+.my-pagination .ngx-pagination .current {
+    background: none !important;
+    color:  rgb(245, 76, 76) !important;
+    font-size: 17px !important
+  }
+.my-pagination .ngx-pagination a {
+    color: white !important; 
+    background: none !important;
+    font-size: 16px !important
+}
+.my-pagination .ngx-pagination a:hover {
+    color: rgb(248, 74, 74) !important; 
+    background: none !important
+}
+.my-pagination .ngx-pagination .pagination-previous{
+    font-size: 16px !important
+}
+.my-pagination .ngx-pagination .pagination-next{
+    font-size: 16px !important
+}
+.sidebarSize p{
+    font-size: 10.5px
+}
+.centerCard{
+  width: 400px !important;
+  margin: 0 auto !important;
+}
+.centerBouttonLogin{
+    margin-left: 79% !important;
+}
+.centerBouttonEmail{
+    margin-left: 27% !important;
+}
+.textCenter{
+    text-align: center
+}
+.inputCenter{
+    margin-left: 3em;
+    margin-right: 3em;
+    width: 100%
+}
+.marginText{
+    margin-top: 1em;
+    margin-bottom: 1em !important
+}
+.aPointer{
+    cursor: pointer;
+}
+.textNormalLink{
+    color: #bbb !important;
+}
+.textNormalLink:hover{
+    text-decoration: underline !important;
+    color: #fff !important;
+}
+.btnTextRight{
+    width: 100%;
+    text-align: right;
+    margin-bottom: 22px;
+}
+.contentNoPaddingLR{
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+@media screen and (max-width: 1103px){
+    .contentNoPaddingLR{
+        padding-left: 0 !important;
+        padding-right: 30px !important;
+    }
+}
+.mat-tab-label, .mat-tab-link{
+    color: #fff
+}
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.divDisp{
+    display: -webkit-box;
+    margin-bottom: 20px
+}
+.spanCalendar{
+    cursor: pointer;
+    margin-left: 11px !important;
+}
+.iCalendar{
+    margin-top: 7px !important;
+    font-size: 23px !important
+}
+.cardWH{
+    width: 40% !important;
+    float: left;
+    margin-top: 6em;
+    margin-left: 5em
+}
+.borderNone{
+    border: none !important
+}
+.tdButton{
+    width: 300%;
+    display: inline-block
+}
+.examSpace{
+    margin-bottom: 17px;
+    margin-top: 18px;
+}
+button.bigPlus{
+    font-size: 21px;
+    padding: 0px 5px 0px 10px;
+}
+button.iconButtonG{
+    background: none;
+    color: white;
+    border: none;
+    padding: 9px 0px;
+    cursor: pointer
+}
+.cardheight{
+    height: 400px;
+}
+#scrollbar-style::-webkit-scrollbar-track
+{
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 10px;
+	background-color: #1F1E30;
+}
+
+#scrollbar-style::-webkit-scrollbar
+{
+	width: 9px;
+	background-color: #1F1E30;
+}
+
+#scrollbar-style::-webkit-scrollbar-thumb
+{
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #D62929;
+}
+.mat-tab-body-content.ng-trigger.ng-trigger-translateTab {
+    overflow: hidden;
+    transform: none;
+}
